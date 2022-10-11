@@ -2,6 +2,8 @@ package com.demoapi.demoapi.controller;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,28 +27,28 @@ public class CountryController {
     }
 
     @GetMapping
-    public List<Country> getAll(){
-        return countryService.getAll();
+    public ResponseEntity<List<Country>> getAll(){
+        return new ResponseEntity(countryService.getAll(),HttpStatus.OK);
     }
 
     @GetMapping("/{id}") 
-    public Country getById(@PathVariable Long id){
-        return countryService.getById(id);
+    public ResponseEntity<Country> getById(@PathVariable Long id){
+        return new ResponseEntity(countryService.getById(id),HttpStatus.OK);
     }
 
     @PostMapping
-    public Country Create(@RequestBody Country country){
-        return countryService.create(country);
+    public ResponseEntity<Country> Create(@RequestBody Country country){
+        return new ResponseEntity(countryService.create(country), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public Country Update(@PathVariable Long id,@RequestBody Country country){
-        return countryService.update(id,country);
+    public ResponseEntity<Country> Update(@PathVariable Long id,@RequestBody Country country){
+        return new ResponseEntity(countryService.update(id,country), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
-    public Country Delete(@PathVariable Long id){
-        return countryService.delete(id);
+    public ResponseEntity<Country> Delete(@PathVariable Long id){
+        return new ResponseEntity(countryService.delete(id), HttpStatus.OK);
     }
 
     
