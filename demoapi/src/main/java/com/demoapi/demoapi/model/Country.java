@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
+// import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -22,9 +22,12 @@ public class Country {
     @Column(nullable = false, name = "country_name")
     private String name;
 
+    // @ManyToOne
+    // @JoinColumn(name = "region_id", nullable=false)//ini kalo di region gaa dikasi anotasi OneToMany
+    // private Region regionId;
+
     @ManyToOne
-    @JoinColumn(name = "region_id", nullable=false)
-    private Region regionId;
+    private Region region;
 
     public Country() {
     }
@@ -53,12 +56,12 @@ public class Country {
         this.code = code;
     }
 
-    public Region getRegionId() {
-        return regionId;
+    public Region getRegion() {
+        return region;
     }
 
-    public void setRegionId(Region regionId) {
-        this.regionId = regionId;
+    public void setRegion(Region region) {
+        this.region = region;
     }
 
     
