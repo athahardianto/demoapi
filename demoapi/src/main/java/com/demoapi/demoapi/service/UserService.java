@@ -18,34 +18,19 @@ public class UserService {
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
-
-    public List<User> getAll(){
+    
+    public List<User> getAll() {
         return userRepository.findAll();
     }
 
-    public User getById(Long id){
+    public User getById(Long id) {
         return userRepository.findById(id)
-            .orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND,"User not found!") );
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
     }
 
-    public User create(User user){
-        if (user.getId() != null) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "User id already exists!");
-        } 
-
-        if(userRepository.existsByUsername(user.getUsername()) ){
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "User name is already exists!");
-        }
-
-        return userRepository.save(user);
-    }
-    
-    public User update(Long id, User user){
+    public User update(Long id, User user) {
         getById(id);
         user.setId(id);
-        if(userRepository.existsByUsername(user.getUsername()) ){
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "User name is already exists!");
-        }
         return userRepository.save(user);
     }
     

@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.demoapi.demoapi.service.CountryService;
 import com.demoapi.demoapi.model.Country;
+import com.demoapi.demoapi.model.Region;
 
 @RestController
 @RequestMapping("/country")
@@ -49,6 +51,16 @@ public class CountryController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Country> Delete(@PathVariable Long id){
         return new ResponseEntity(countryService.delete(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/group")
+    public List<Country> groupByRegion(@RequestParam Long id){
+        return countryService.groupByRegion(id);
+    }
+
+    @GetMapping("/searchbyregion")
+    public List<Country> searchByNameRegion(@RequestParam String name){
+        return countryService.searchByNameRegion(name);
     }
 
     

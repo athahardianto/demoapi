@@ -1,5 +1,6 @@
 package com.demoapi.demoapi.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,44 +9,52 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.demoapi.demoapi.model.Employee;
+import com.demoapi.demoapi.model.Role;
+import com.demoapi.demoapi.model.User;
+import com.demoapi.demoapi.model.dto.request.EmployeeRequest;
 import com.demoapi.demoapi.repository.EmployeeRepository;
 
-@Service 
+import lombok.AllArgsConstructor;
+
+@Service
+@AllArgsConstructor 
 public class EmployeeService {
     private EmployeeRepository employeeRepository;
+    private RoleService roleService;
 
-    @Autowired
-    public EmployeeService(EmployeeRepository employeeRepository) {
-        this.employeeRepository = employeeRepository;
-    }
-
-    public List<Employee> getAll(){
+    public List<Employee> getAll() {
         return employeeRepository.findAll();
     }
 
-    public Employee getById(Long id){
+    public Employee getById(Long id) {
         return employeeRepository.findById(id)
-            .orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND,"employee not found!") );
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee not found"));
     }
 
-    public Employee create(Employee employee){
-        if (employee.getId() != null) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "employee id already exists!");
-        } 
-
-        if(employeeRepository.existsByName(employee.getName()) ){
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "employee name is already exists!");
-        }
-
+    // ModelMapper (JUMAT)
+    public Employee create(EmployeeRequest employeeRequest) {
+        Employee employee = new Employee();
+        employee.setName(employeeRequest.getName());
+        employee.setEmail(employeeRequest.getEmail());
+        employee.setNumber(employeeRequest.getNumber());
+        
+        User user = new User();
+        user.setUsername(employeeRequest.getUsername());
+        user.setPassword(employeeRequest.getPassword());
+     
+        List<Role> role = new ArrayList<>();
+        role.add(roleService.getById(2L));
+        user.setRole(role);
+        
+        employee.setUser(user);
+        user.setEmployee(employee);
+        
         return employeeRepository.save(employee);
     }
-    
-    public Employee update(Long id, Employee employee){
+
+    public Employee update(Long id, Employee employee) {
         getById(id);
         employee.setId(id);
-        if(employeeRepository.existsByName(employee.getName()) ){
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "employee name is already exists!");
-        }
         return employeeRepository.save(employee);
     }
     

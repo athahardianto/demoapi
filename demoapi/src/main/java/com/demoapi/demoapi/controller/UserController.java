@@ -21,34 +21,29 @@ import com.demoapi.demoapi.service.UserService;
 @RequestMapping("/user")
 public class UserController {
     private UserService userService;
-    
+
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }
 
     @GetMapping
-    public ResponseEntity<List<User>> getAll(){
-        return new ResponseEntity(userService.getAll(),HttpStatus.OK);
+    public List<User> getAll() {
+        return userService.getAll();
     }
 
-    @GetMapping("/{id}") 
-    public ResponseEntity<User> getById(@PathVariable Long id){
-        return new ResponseEntity(userService.getById(id),HttpStatus.OK);
-    }
-
-    @PostMapping
-    public ResponseEntity<User> Create(@RequestBody User user){
-        return new ResponseEntity(userService.create(user), HttpStatus.CREATED);
+    @GetMapping("/{id}")
+    public User getById(@PathVariable Long id) {
+        return userService.getById(id);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> Update(@PathVariable Long id,@RequestBody User user){
-        return new ResponseEntity(userService.update(id,user), HttpStatus.CREATED);
+    public User update(@PathVariable Long id, @RequestBody User user) {
+        return userService.update(id, user);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<User> Delete(@PathVariable Long id){
-        return new ResponseEntity(userService.delete(id), HttpStatus.OK);
+    public User delete(@PathVariable Long id) {
+        return userService.delete(id);
     }
 }

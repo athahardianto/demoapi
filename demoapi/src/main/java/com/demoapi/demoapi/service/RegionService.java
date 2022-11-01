@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+
+import com.demoapi.demoapi.model.Country;
 import com.demoapi.demoapi.model.Region;
 import com.demoapi.demoapi.repository.RegionRepository;
 
@@ -50,6 +52,14 @@ public class RegionService {
         Region region = getById(id);
         regionRepository.delete(region);
         return region;
+    }
+
+    public List<Region> serachByName(String name){
+        return regionRepository.searchByNameNative(name);
+    }
+
+    public List<Region> urutNama(){
+        return regionRepository.urutNama();
     }
 
     

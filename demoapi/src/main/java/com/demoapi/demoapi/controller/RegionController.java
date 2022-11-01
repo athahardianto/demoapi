@@ -11,7 +11,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.demoapi.demoapi.model.Country;
 import com.demoapi.demoapi.model.Region;
 import com.demoapi.demoapi.service.RegionService;
 
@@ -51,5 +54,15 @@ public class RegionController {
     @DeleteMapping("/{id}") // http:/localhost:8080/region/1
     public ResponseEntity<Region> delete(@PathVariable Long id) {
         return new ResponseEntity(regionService.delete(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/search")
+    public List<Region> searchByName(@RequestParam String name){
+        return regionService.serachByName(name);
+    }
+
+    @GetMapping("/urut")
+    public List<Region> urutNama(){
+        return regionService.urutNama();
     }
 }

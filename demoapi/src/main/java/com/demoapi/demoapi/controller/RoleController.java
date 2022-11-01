@@ -21,34 +21,34 @@ import com.demoapi.demoapi.service.RoleService;
 @RequestMapping("/role")
 public class RoleController {
     private RoleService roleService;
-    
+
     @Autowired
     public RoleController(RoleService roleService) {
         this.roleService = roleService;
     }
 
-    @GetMapping
-    public ResponseEntity<List<Role>> getAll(){
-        return new ResponseEntity(roleService.getAll(),HttpStatus.OK);
+    @GetMapping // http:/localhost:8088/role
+    public List<Role> getAll() {
+        return roleService.getAll();
     }
 
-    @GetMapping("/{id}") 
-    public ResponseEntity<Role> getById(@PathVariable Long id){
-        return new ResponseEntity(roleService.getById(id),HttpStatus.OK);
+    @GetMapping("/{id}") // http:/localhost:8088/role/1
+    public Role getById(@PathVariable Long id) {
+        return roleService.getById(id);
     }
 
-    @PostMapping
-    public ResponseEntity<Role> Create(@RequestBody Role role){
-        return new ResponseEntity(roleService.create(role), HttpStatus.CREATED);
+    @PostMapping // http:/localhost:8088/role
+    public Role create(@RequestBody Role role) {
+        return roleService.create(role);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Role> Update(@PathVariable Long id,@RequestBody Role role){
-        return new ResponseEntity(roleService.update(id,role), HttpStatus.CREATED);
+    @PutMapping("/{id}") // http:/localhost:8088/role/1
+    public Role update(@PathVariable Long id, @RequestBody Role role) {
+        return roleService.update(id, role);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Role> Delete(@PathVariable Long id){
-        return new ResponseEntity(roleService.delete(id), HttpStatus.OK);
+    @DeleteMapping("/{id}") // http:/localhost:8088/role/1
+    public Role delete(@PathVariable Long id) {
+        return roleService.delete(id);
     }
 }

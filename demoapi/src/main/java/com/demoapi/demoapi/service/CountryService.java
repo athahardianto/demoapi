@@ -7,12 +7,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import com.demoapi.demoapi.model.Country;
+import com.demoapi.demoapi.model.Region;
 import com.demoapi.demoapi.repository.CountryRepository;
+import com.demoapi.demoapi.repository.RegionRepository;
 
 @Service
 public class CountryService {
     
     private CountryRepository countryRepository;
+
+    private RegionRepository regionRepository;
 
     @Autowired
     public CountryService(CountryRepository countryRepository) {
@@ -54,4 +58,13 @@ public class CountryService {
         countryRepository.delete(country);
         return country;
     }
+
+    public List<Country> groupByRegion(Long id){
+        return countryRepository.groupByRegion(id);
+    }
+
+    public List<Country> searchByNameRegion(String name){
+        return countryRepository.searchByNameRegion(name);
+    }
+
 }
